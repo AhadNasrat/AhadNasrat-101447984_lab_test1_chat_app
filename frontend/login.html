@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">                        
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Login</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $('#login-form').submit(function(e) {
+      e.preventDefault();
+      const user = {
+        username: $('#username').val(),
+        password: $('#password').val()
+      };
+
+      $.ajax({
+        url: 'http://localhost:5000/login',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(user),
+        success: function(response) {
+          alert('Login successful');
+          localStorage.setItem('loggedIn', 'true');  // Store login status
+          localStorage.setItem('username', user.username); // Store username
+          window.location.href = 'dashboard.html'; // Redirect after login
+        },
+        error: function(err) {
+          alert('Error: ' + (err.responseJSON?.error || 'Login failed'));
+        }
+      });
+    });
+
+    // Redirect to dashboard if already logged in
+    if (localStorage.getItem("loggedIn")) {
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <script>
+    // Redirect to login if not logged in
+    if (!localStorage.getItem("loggedIn")) {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="container mt-5">
+    <h2>Welcome to the Chat App, <span id="user-name"></span>!</h2>
+    <p>Select a room to start chatting:</p>
+
+    <div class="form-group">
+      <label for="room-select">Choose a Room:</label>
+      <select id="room-select" class="form-control">
+        <option value="devops">DevOps</option>
+        <option value="cloud computing">Cloud Computing</option>
+        <option value="covid19">COVID-19</option>
+        <option value="sports">Sports</option>
+        <option value="nodeJS">NodeJS</option>
+      </select>
+    </div>
+
+    <button id="join-room-btn" class="btn btn-primary">Join Room</button>
+    <button id="logout-btn" class="btn btn-danger ml-2">Logout</button>
+  </div>
+
+  <script>
+    // Show the logged-in user's name
+    document.getElementById("user-name").textContent = localStorage.getItem("username") || "User";
+
+    document.getElementById("join-room-btn").addEventListener("click", function() {
+      const selectedRoom = document.getElementById("room-select").value;
+      localStorage.setItem("room", selectedRoom);
+      window.location.href = "chatroom.html";
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", function() {
+      localStorage.removeItem("loggedIn"); // Remove login state
+      localStorage.removeItem("username"); // Remove username
+      localStorage.removeItem("room"); // Remove room data
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
